@@ -13,7 +13,7 @@ def create_user():
         return jsonify({'error': 'Username and email are required!'}), 400
 
     try:
-        user = User(username=data['username'], email=data['email'])
+        user = User(username=data['username'], email=data['email'],password=data['password'])
         db.session.add(user)
         db.session.commit()
         return jsonify({'message': 'User created!', 'user': {'user_id': user.user_id, 'username': user.username, 'email': user.email}}), 201
@@ -31,6 +31,7 @@ def get_user(user_id):
             'user_id': user.user_id,
             'username': user.username,
             'email': user.email,
+            'password': user.password,
             'created_at': user.created_at
         }), 200
     except Exception as e:
