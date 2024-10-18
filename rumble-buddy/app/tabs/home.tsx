@@ -1,14 +1,15 @@
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View,ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Redirect, useRouter } from 'expo-router';
 import Search from '../componants/search';
+import ParallaxCarousel from '../componants/carousel';
 
 const Home = () => {
   const router = useRouter(); // Initialize the router
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.head}>
         <View>
           <TouchableOpacity style={styles.location}>
@@ -25,7 +26,10 @@ const Home = () => {
       <View>
         <Search/>
       </View>
-    </View>
+      <View>
+        <ParallaxCarousel/>
+      </View>
+    </ScrollView>
   )
 }
 

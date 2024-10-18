@@ -28,7 +28,7 @@ const TabsIndex: React.FC = () => {
           }}
         />
         <Tab.Screen
-          name="Notifications"
+          name="Explore"
           component={explore}
           options={{
             tabBarLabel: 'Explore',

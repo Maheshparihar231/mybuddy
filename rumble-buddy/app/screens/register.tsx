@@ -2,7 +2,7 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View,KeyboardAvoidingVie
 import React, { useRef, useState } from 'react'
 import { useRouter  } from 'expo-router';
 
-const register = () => {
+const registerScreen = () => {
   const router = useRouter(); // Initialize the router
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -63,7 +63,7 @@ const register = () => {
   )
 }
 
-export default register
+export default registerScreen
 
 const styles = StyleSheet.create({
   container: {
