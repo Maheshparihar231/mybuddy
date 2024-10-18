@@ -9,7 +9,7 @@ const loginScreen = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   if (loggedIn) {
-    return <Redirect href="/tabs/home" />;
+    return <Redirect href="/tabs" />;
   }
 
   const handleLogin = () => {
