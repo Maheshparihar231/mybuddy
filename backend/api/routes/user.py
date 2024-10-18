@@ -3,9 +3,8 @@ from models import db, User
 
 user_api = Blueprint('user_api', __name__)
 
-
 # Route to create a new user
-@user_api.route('/add', methods=['POST'])
+@user_api.route('/register', methods=['POST'])
 def create_user():
     data = request.get_json()
 
