@@ -1,6 +1,6 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View,KeyboardAvoidingView, Platform, Button  } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, Button } from 'react-native'
 import React, { useRef, useState } from 'react'
-import { Redirect, useRouter  } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 
 const loginScreen = () => {
   const router = useRouter(); // Initialize the router
@@ -26,9 +26,9 @@ const loginScreen = () => {
     //       password,
     //     }),
     //   });
-  
+
     //   const data = await response.json();
-  
+
     //   if (response.ok) {
     //     // Handle successful login
     //     console.log('Login successful:', data);
@@ -65,7 +65,7 @@ const loginScreen = () => {
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-      <Button title="Don't have an account?" onPress={()=>router.push('/screens/register')}/>
+      <Button title="Don't have an account?" onPress={() => router.push('/screens/register')} />
     </KeyboardAvoidingView>
   )
 }
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems:'center',
+    alignItems: 'center',
     padding: 20,
   },
   input: {
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#6200ea',
     paddingVertical: 15,
-    marginBottom:20,
+    marginBottom: 20,
     paddingHorizontal: 40,
     borderRadius: 25,
     shadowColor: '#000',

@@ -1,6 +1,10 @@
 import { Redirect } from "expo-router";
 import { useState } from "react";
-import { Text, View,StyleSheet,TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import NearbyActivity from "./componants/quick_filter";
+import Home from "./tabs/home";
 
 export default function Index() {
   const [start, setStart] = useState(false);
@@ -10,17 +14,20 @@ export default function Index() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text>Splash Screen Animation</Text>
-      <TouchableOpacity  style={styles.button} onPress={() => setStart(true)} >
-      <Text style={styles.buttonText}>Get Started</Text>
-      </TouchableOpacity>
-    </View>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      
+        <View style={styles.container}>
+          <Text>Splash Screen Animation</Text>
+          <TouchableOpacity style={styles.button} onPress={() => setStart(true)} >
+            <Text style={styles.buttonText}>Get Started</Text>
+          </TouchableOpacity>
+        </View>
+    </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
-  container : {
+  container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

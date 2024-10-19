@@ -5,6 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import home from './home';
 import setting from './setting';
 import explore from './explore';
+import profile from '../screens/profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,7 +41,7 @@ const TabsIndex: React.FC = () => {
         />
         <Tab.Screen
           name="Profile"
-          component={setting}
+          component={profile}
           options={{
             tabBarLabel: 'Profile',
             tabBarIcon: ({ color }) => (
