@@ -7,9 +7,8 @@ const Notification = () => {
     return (
         <ScrollView style={styles.container}>
             <View style={styles.head}>
-                <Text style={{ fontWeight: 'bold', fontSize: 25 }}>Notification</Text>
-                <TouchableOpacity>
-                    <Text style={{ color: 'red' }}>mark all read</Text>
+                <TouchableOpacity style={{ flex:1,flexDirection:'row-reverse'}}>
+                    <Text style={{ color: '#e87c58',fontWeight:'bold',fontSize:15 }}>mark all read</Text>
                 </TouchableOpacity>
             </View>
             <View>
@@ -21,7 +20,7 @@ const Notification = () => {
                             eventName: notifications.eventName,
                             eventId: notifications.eventId,         // Event identifier
                             postedTime: notifications.postedTime,     // Actual timestamp of the event post
-                            isRead: notifications.isReaded,
+                            isReaded: notifications.isReaded,
                         }}
                     />
                 ))}
@@ -36,7 +35,7 @@ export default Notification
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 25,
+        marginTop: 30,
         padding: 10,
     },
     head: {

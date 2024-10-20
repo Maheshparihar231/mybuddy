@@ -32,7 +32,7 @@ const Card: React.FC<CardProps> = ({ data }) => {
             style={styles.cardJobIcon}
           />
           <View style={styles.cardJobDetails}>
-            <Text>Posted By</Text>
+            <Text style={styles.postedby}>Posted By</Text>
             <Text style={styles.cardJobTitleSmall}>
               {data.postedBy}
             </Text>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   card: {
     marginVertical: 10,
     padding: 10,
-    backgroundColor: '#88898a',
+    backgroundColor: '#e66135',
     borderRadius: 10,
     shadowColor: '#000',
     shadowOpacity: 0.1,
@@ -66,10 +66,10 @@ const styles = StyleSheet.create({
   cardHero: {
     backgroundColor: '#fef4e2',
     borderRadius: 10,
-    height:120,
+    height: 120,
     padding: 15,
-    flexDirection:'column',
-    justifyContent:'space-between',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   cardHeroHeader: {
     flexDirection: 'row',
@@ -100,19 +100,24 @@ const styles = StyleSheet.create({
   cardJobDetails: {
     flex: 1,
   },
+  postedby: { 
+    fontSize:10,
+    color: '#fff' 
+  },
   cardJobTitleSmall: {
+    color: '#fff',
     fontSize: 16,
     fontWeight: '500',
   },
   cardBtn: {
     marginTop: 10,
-    backgroundColor: '#141417',
+    backgroundColor: '#d9d7d7',
     paddingVertical: 10,
     borderRadius: 10,
     alignItems: 'center',
   },
   cardBtnText: {
-    color: '#fff',
+    color: '#000',
     fontSize: 16,
   },
 });

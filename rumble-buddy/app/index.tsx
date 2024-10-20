@@ -17,13 +17,13 @@ export default function Index() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      {/* <Profile/> */}
-      <View style={styles.container}>
+      <Profile/>
+      {/* <View style={styles.container}>
         <Text>Splash Screen Animation</Text>
         <TouchableOpacity style={styles.button} onPress={() => setStart(true)} >
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </GestureHandlerRootView>
   );
 }

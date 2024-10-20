@@ -17,12 +17,12 @@ const Home = () => {
         <View style={{padding:10}}>
           <TouchableOpacity style={styles.location}>
             <Text style={styles.locationText}>Raja Rani coliv..</Text>
-            <MaterialCommunityIcons name="arrow-down-drop-circle-outline" size={20} />
+            <MaterialCommunityIcons name="arrow-down-drop-circle-outline" size={20} color={'#e87c58'}/>
           </TouchableOpacity>
         </View>
         <View>
           <TouchableOpacity onPress={() => { router.push('/screens/notification') }}>
-            <MaterialCommunityIcons name="bell-outline" size={30} tabBarBadge={3}/>
+            <MaterialCommunityIcons name="bell-outline" size={30} tabBarBadge={3} color={'#e87c58'}/>
           </TouchableOpacity>
         </View>
       </View>
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginRight: 5,
     fontSize: 15,
+    color:'#e87c58'
   },
   head: {
     flex: 1,

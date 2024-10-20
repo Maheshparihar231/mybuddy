@@ -5,22 +5,21 @@ import filters from '../Data/quick_filter'
 
 const QuickFilter = () => {
     return (
-        <View style={styles.container}>
-            <ScrollView
-                horizontal={true} // Make the ScrollView horizontal 
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.filter}
-            >
-                {filters.map(filter => (
-                    <View key={filter.id} style={styles.filter_index}>
-                        <TouchableOpacity style={styles.filterBox}>
-                            <MaterialCommunityIcons name={filter.icon} size={40} />
-                        </TouchableOpacity>
-                        <Text style={{ margin: 3, fontWeight: 'bold' }}>{filter.name}</Text>
-                    </View>
-                ))}
-            </ScrollView>
-        </View>
+        <ScrollView
+            style={styles.container}
+            horizontal={true} // Make the ScrollView horizontal 
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.filter}
+        >
+            {filters.map(filter => (
+                <View key={filter.id} style={styles.filter_index}>
+                    <TouchableOpacity activeOpacity={0.8} style={styles.filterBox}>
+                        <MaterialCommunityIcons name={filter.icon} size={40} />
+                    </TouchableOpacity>
+                    <Text style={{ margin: 3, fontWeight: 'bold' }}>{filter.name}</Text>
+                </View>
+            ))}
+        </ScrollView>
     )
 }
 
@@ -38,7 +37,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 15,
-        backgroundColor: '#4A90E2', // Soft blue color
+        backgroundColor: '#e87c58', // Soft blue color
         borderRadius: 40, // Softer, more rounded corners
         shadowColor: '#000', // Black shadow
         shadowOffset: { width: 0, height: 2 }, // Position of the shadow

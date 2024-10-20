@@ -52,10 +52,12 @@ const Profile = () => {
         <TouchableOpacity activeOpacity={0.8} style={styles.profileBtn}>
           <Text style={styles.btnText}>Edit Profile</Text>
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.8} style={styles.profileBtn}><Text style={styles.btnText}>Share Profile</Text></TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.8} style={styles.profileBtn}>
+          <Text style={styles.btnText}>Share Profile</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.postsContainer}>
-        <PostsGrid/>
+        <PostsGrid />
       </View>
     </ScrollView>
   )
@@ -96,26 +98,15 @@ const styles = StyleSheet.create({
   bio: {
     fontWeight: 'bold',
     fontSize: 14,
-    color: '#666',
+    color: '#262626',
   },
   location: {
     fontSize: 14,
     color: '#666',
   },
-  stats: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  stat: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  statNumber: {
-    fontWeight: 'bold',
-  },
   profileBtn: {
     flex: 1,
-    backgroundColor: 'grey',
+    backgroundColor: '#262626',
     alignItems: 'center',
     margin: 5,
     padding: 5,

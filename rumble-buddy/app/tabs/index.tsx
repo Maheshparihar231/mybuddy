@@ -14,7 +14,7 @@ const TabsIndex: React.FC = () => {
       <Tab.Navigator
         initialRouteName="Home"
         screenOptions={{
-          tabBarActiveTintColor: '#e91e63',
+          tabBarActiveTintColor: '#e87c58',
           tabBarStyle: { backgroundColor: 'white', height: 60 },
         }}
       >

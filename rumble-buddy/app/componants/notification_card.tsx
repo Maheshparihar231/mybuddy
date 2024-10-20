@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import moment from 'moment';
 
 interface NotificationProps {
@@ -8,17 +8,22 @@ interface NotificationProps {
         eventName: string,
         eventId: string,         // Event identifier
         postedTime: string,     // Actual timestamp of the event post
-        isRead: boolean,
+        isReaded: boolean,
     };
 }
 
 const Notification_card: React.FC<NotificationProps> = ({ notification }) => {
+    const [isReaded, setIsReaded] = useState(notification.isReaded);
     return (
         <View style={styles.card}>
             <View style={styles.container}>
-                <View style={styles.left}>
-                    <View style={styles.statusInd}></View>
-                </View>
+                {/* Show indicator if not read */}
+                {!isReaded && (
+                    <View style={styles.left}>
+                        <View style={styles.statusInd}></View>
+                    </View>
+                )}
+                
                 <View style={styles.right}>
                     <View style={styles.textWrap}>
                         <Text style={styles.textContent}>
@@ -26,12 +31,18 @@ const Notification_card: React.FC<NotificationProps> = ({ notification }) => {
                         </Text>
                         <Text style={styles.time}>{notification.postedTime}</Text>
                     </View>
+                    
                     <View style={styles.buttonWrap}>
                         <TouchableOpacity>
                             <Text style={styles.primaryCta}>View more</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity>
-                            <Text style={styles.secondaryCta}>Mark as read</Text>
+                        {/* Conditionally render "Mark as read" or "Mark as unread" based on read state */}
+                        <TouchableOpacity 
+                            onPress={() => setIsReaded(!isReaded)} // Toggle the read state
+                        >
+                            <Text style={styles.secondaryCta}>
+                                {isReaded ? 'Mark as unread' : 'Mark as read'}
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -49,7 +60,7 @@ const styles = StyleSheet.create({
         padding: 16,
         borderColor: '#e0e0e0',
         borderWidth: 1,
-        marginBottom:4,
+        marginBottom: 4,
     },
     container: {
         flexDirection: 'row',
@@ -62,7 +73,7 @@ const styles = StyleSheet.create({
     statusInd: {
         width: 10,
         height: 10,
-        backgroundColor: '#ff3333',
+        backgroundColor: '#e87c58',
         borderRadius: 5,
         margin: 6,
     },

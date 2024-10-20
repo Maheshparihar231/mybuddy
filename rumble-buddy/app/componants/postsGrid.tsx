@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Animated } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, FlatList, Animated, Dimensions } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import Activitiesgrid from './activitiesgrid';
 
@@ -14,26 +14,22 @@ const postsData = [
     { id: '5', imageUrl: 'https://picsum.photos/id/9/200/200' },
 ];
 
-const reelsData = [
-    { id: '1', imageUrl: 'https://picsum.photos/id/5/200/200' },
-    { id: '2', imageUrl: 'https://picsum.photos/id/6/200/200' },
-    { id: '3', imageUrl: 'https://picsum.photos/id/7/200/200' },
-    { id: '4', imageUrl: 'https://picsum.photos/id/8/200/200' },
-];
-
 const PostsGrid = () => {
     const [activeTab, setActiveTab] = useState('Posts'); // State to track the active tab
     const slidingBarPosition = useRef(new Animated.Value(0)).current;
+    const [selectedImage, setSelectedImage] = useState<string | null>(null); // State to track long-pressed image
     // Function to render each item (post or reel) in the grid
     const renderItem = ({ item }: { item: MediaItem }) => (
         <View style={styles.gridItem}>
-            <Image source={{ uri: item.imageUrl }} style={styles.gridImage} />
+            <TouchableOpacity activeOpacity={0.8} onLongPress={() => setSelectedImage(item.imageUrl)} onPressOut={() => { setSelectedImage(null) }}>
+                <Image source={{ uri: item.imageUrl }} style={styles.gridImage} />
+            </TouchableOpacity>
         </View>
     );
 
     useEffect(() => {
         // Set the sliding bar position based on the active tab
-        const targetPosition = activeTab === 'Posts' ? 0 : 100; // Adjust according to your tab widths
+        const targetPosition = activeTab === 'Posts' ? -100 : 100; // Adjust according to your tab widths
         Animated.spring(slidingBarPosition, {
             toValue: targetPosition,
             useNativeDriver: true,
@@ -54,6 +50,7 @@ const PostsGrid = () => {
                 <Animated.View
                     style={[styles.slidingBar, { transform: [{ translateX: slidingBarPosition }] }]}
                 />
+                <View style={styles.divider}></View>
             </View>
 
             {/* Content based on active tab */}
@@ -66,7 +63,19 @@ const PostsGrid = () => {
                     scrollEnabled={false}
                 />
             ) : (
-                <Activitiesgrid/>
+                <Activitiesgrid />
+            )}
+            {selectedImage && (
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={!!selectedImage}
+                    onRequestClose={() => setSelectedImage(null)}
+                >
+                    <View style={styles.modalBackground}>
+                        <Image source={{ uri: selectedImage }} style={styles.fullImage} />
+                    </View>
+                </Modal>
             )}
         </View>
     )
@@ -78,12 +87,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingTop: 20,
+        marginTop: 10,
     },
     tabContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginBottom: 20,
+        marginBottom: 1,
     },
     tabButton: {
         flex: 1,
@@ -95,7 +104,7 @@ const styles = StyleSheet.create({
         color: '#666',
     },
     activeTabText: {
-        color: '#000',
+        color: '#e87c58',
         fontWeight: 'bold',
     },
     gridItem: {
@@ -111,7 +120,35 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         height: 5,
-        width: '10%', // Adjust according to your tab width
-        backgroundColor: 'black',
+        width: '40%', // Adjust according to your tab width
+        backgroundColor: '#e87c58',
+        borderRadius: 40,
+    },
+    divider: {
+        position: 'absolute',
+        bottom: 0,
+        height: 2,
+        width: '100%', // Adjust according to your tab width
+        backgroundColor: '#e87c58',
+    },
+    modalBackground: {
+        flex: 1,
+        height: Dimensions.get('window').height,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.6)', // Semi-transparent background
+    },
+    blurView: {
+        ...StyleSheet.absoluteFillObject,
+    },
+    imageModalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    fullImage: {
+        width: '90%',
+        height: '70%',
+        resizeMode: 'contain', // Show image in full-size format
     },
 })
