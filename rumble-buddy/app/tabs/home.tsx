@@ -21,7 +21,7 @@ const Home = () => {
           </TouchableOpacity>
         </View>
         <View>
-          <TouchableOpacity onPress={() => { router.push('/screens/profile') }}>
+          <TouchableOpacity onPress={() => { router.push('/screens/notification') }}>
             <MaterialCommunityIcons name="bell-outline" size={30} tabBarBadge={3}/>
           </TouchableOpacity>
         </View>

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, Touchable, TouchableOpacity, TouchableOpacityBase } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import filters from '../Data/quick_filter'
@@ -12,14 +12,12 @@ const QuickFilter = () => {
                 contentContainerStyle={styles.filter}
             >
                 {filters.map(filter => (
-                    <TouchableOpacity>
-                        <View key={filter.id} style={styles.filter_index}>
-                            <View style={styles.filterBox}>
-                                <MaterialCommunityIcons name={filter.icon} size={40} />
-                            </View>
-                            <Text style={{ margin: 3, fontWeight: 'bold' }}>{filter.name}</Text>
-                        </View>
-                    </TouchableOpacity>
+                    <View key={filter.id} style={styles.filter_index}>
+                        <TouchableOpacity style={styles.filterBox}>
+                            <MaterialCommunityIcons name={filter.icon} size={40} />
+                        </TouchableOpacity>
+                        <Text style={{ margin: 3, fontWeight: 'bold' }}>{filter.name}</Text>
+                    </View>
                 ))}
             </ScrollView>
         </View>

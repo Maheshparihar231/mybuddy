@@ -14,7 +14,6 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ data }) => {
   const router = useRouter();
-
   return (
     <View style={styles.card}>
       <View style={styles.cardHero}>
@@ -56,7 +55,7 @@ const styles = StyleSheet.create({
   card: {
     marginVertical: 10,
     padding: 10,
-    backgroundColor: '#fff',
+    backgroundColor: '#88898a',
     borderRadius: 10,
     shadowColor: '#000',
     shadowOpacity: 0.1,
