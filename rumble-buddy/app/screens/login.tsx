@@ -12,36 +12,36 @@ const loginScreen = () => {
     return <Redirect href="/tabs" />;
   }
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // Handle login logic here
-    setLoggedIn(true)
-    // try {
-    //   const response = await fetch('YOUR_API_ENDPOINT/login', { // Replace with your actual API endpoint
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       email,
-    //       password,
-    //     }),
-    //   });
+    setLoggedIn(true) 
+    try {
+      const response = await fetch('https://40e0-49-43-180-176.ngrok-free.app/api/auth/login', { // Replace with your actual API endpoint
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
 
-    //   const data = await response.json();
+      const data = await response.json();
 
-    //   if (response.ok) {
-    //     // Handle successful login
-    //     console.log('Login successful:', data);
-    //     <Redirect href={'/tabs/home'}/>
-    //     // You can navigate to the next screen or store user info here
-    //     setPassword(''); // Clear the password field
-    //   } else {
-    //     // Handle errors (e.g., wrong credentials)
-    //     console.error('Login failed:', data.message || 'Unknown error');
-    //   }
-    // } catch (error) {
-    //   console.error('Error during login:', error);
-    // }
+      if (response.ok) {
+        // Handle successful login
+        console.log('Login successful:', data);
+        setLoggedIn(true)
+        // You can navigate to the next screen or store user info here
+        setPassword(''); // Clear the password field
+      } else {
+        // Handle errors (e.g., wrong credentials)
+        console.error('Login failed:', data.error || 'Unknown error');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+    }
   };
 
   return (

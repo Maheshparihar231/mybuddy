@@ -1,9 +1,52 @@
-import { StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { ActivityIndicator, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import Card from './card'
-import activities from '../Data/activity';
+
+interface Activity {
+    id: string;
+    price: string;
+    title: string;
+    posted_by: string;
+    posted_date: string;
+    image_url: string;
+    profile_pic: string;
+}
 
 const Activities = () => {
+    const [data, setData] = useState<Activity[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Function to fetch data from the API
+    const fetchActivities = async () => {
+        try {
+            const response = await fetch('https://40e0-49-43-180-176.ngrok-free.app/api/activity/getall');
+            if (!response.ok) {
+                throw new Error('Failed to fetch data');
+            }
+            const jsonData: Activity[] = await response.json(); // Cast jsonData to Activity[]
+            setData(jsonData);
+        } catch (err) {
+            // Cast err to a string
+            setError((err as Error).message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Fetch data on component mount
+    useEffect(() => {
+        fetchActivities();
+    }, []);
+
+    if (loading) {
+        return <ActivityIndicator size="large" color="#0000ff" />;
+    }
+
+    if (error) {
+        return <Text style={styles.errorText}>Error: {error}</Text>;
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.head}>
@@ -12,14 +55,17 @@ const Activities = () => {
                     <Text>view all</Text>
                 </TouchableOpacity>
             </View>
-            {activities.map(activity => (
+            {data.map(activity => (
                 <Card
                     key={activity.id} // Assign a unique key to each Card
                     data={{
+                        id: activity.id,
                         price: activity.price,
                         title: activity.title,
-                        postedBy: activity.postedBy,
-                        imageUrl: activity.imageUrl,
+                        postedBy: activity.posted_by, // Adjusted to match the API response
+                        posted_date: activity.posted_date, // Adjusted to match the API response
+                        image_url: activity.image_url, // Adjusted to match the API response
+                        profile_pic: activity.profile_pic, // Adjusted to match the API response
                     }}
                 />
             ))}
@@ -44,5 +90,10 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 10,
+    },
+    errorText: {
+        color: 'red',
+        textAlign: 'center',
+        marginTop: 10,
     },
 })

@@ -6,10 +6,11 @@ const registerScreen = () => {
   const router = useRouter(); // Initialize the router
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
 
   const handleRegister = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/user/add', {
+      const response = await fetch('https://40e0-49-43-180-176.ngrok-free.app/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -17,6 +18,7 @@ const registerScreen = () => {
         body: JSON.stringify({
           email,
           password,
+          username,
         }),
       });
   
@@ -29,9 +31,11 @@ const registerScreen = () => {
         setPassword(''); // Clear the password field
       } else {
         // Handle errors (e.g., email already in use)
-        console.error('Registration failed:', data.message || 'Unknown error');
+        console.error('Registration failed:', data.error || 'Unknown error');
+        console.log(email,password,username);
       }
     } catch (error) {
+      console.log(email,password,username);
       console.error('Error during registration:', error);
     }
   };
@@ -39,6 +43,13 @@ const registerScreen = () => {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <TextInput
+        style={styles.input}
+        placeholder="Username"
+        value={username}
+        onChangeText={setUsername}
+        returnKeyType="done"
+      />
       <TextInput
         style={styles.input}
         placeholder="Email"

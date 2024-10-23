@@ -5,10 +5,13 @@ import { useRouter } from 'expo-router';
 
 interface CardProps {
   data: {
+    id: string;
     price: string;
     title: string;
     postedBy: string;
-    imageUrl: string;
+    posted_date: string;
+    image_url: string;
+    profile_pic:string;
   };
 }
 
@@ -28,7 +31,7 @@ const Card: React.FC<CardProps> = ({ data }) => {
       <View style={styles.cardFooter}>
         <View style={styles.cardJobSummary}>
           <Image
-            source={{ uri: data.imageUrl }}
+            source={{ uri: data.profile_pic }}
             style={styles.cardJobIcon}
           />
           <View style={styles.cardJobDetails}>

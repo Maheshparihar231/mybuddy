@@ -2,34 +2,54 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons';
 
-const PostCard = ({ post }) => {
+interface PostProps{
+  data:{
+    bookmarks_count: number;
+    caption: string;
+    image_url: string;
+    is_verified: boolean;
+    likes_count: number;
+    location: string;
+    post_id: string;
+    posted_at: string; // You might want to consider using Date if you parse this later
+    profile_pic: string;
+    shares_count: number;
+    tags: string[]; // Array of strings
+    user_id: string;
+    username: string;
+    isLiked:boolean;
+    saved:boolean;
+  }
+}
+
+const PostCard: React.FC<PostProps> = ({ data }) => {
   return (
     <View style={styles.cardContainer}>
       {/* Header with profile info */}
       <View style={styles.header}>
         <View style={styles.profileSection}>
-          <Image source={{ uri: post.profilePicture }} style={styles.profileImage} />
+          <Image source={{ uri: data.profile_pic }} style={styles.profileImage} />
           <View>
             <View style={styles.usernameRow}>
-              <Text style={styles.username}>{post.username}</Text>
-              {post.isVerified && (
+              <Text style={styles.username}>{data.username}</Text>
+              {data.is_verified && (
                 <MaterialCommunityIcons name="check-decagram" size={16} color="#3897f0" />
               )}
             </View> 
-            <Text style={styles.location}>{post.location}</Text>
+            <Text style={styles.location}>{data.location}</Text>
           </View>
         </View>
         <MaterialCommunityIcons name="dots-horizontal" size={24} color="#000" />
       </View>
 
       {/* Post Image */}
-      <Image source={{ uri: post.imageUrl }} style={styles.postImage} />
+      <Image source={{ uri: data.image_url }} style={styles.postImage} />
 
       {/* Action Buttons */}
       <View style={styles.actionButtons}>
         <View style={styles.leftActions}>
           <TouchableOpacity>
-            <MaterialCommunityIcons name={post.isLiked ? "heart" : "heart-outline"} size={28} color={post.isLiked ? "#e91e63" : "#000"} />
+            <MaterialCommunityIcons name={data.isLiked ? "heart" : "heart-outline"} size={28} color={data.isLiked ? "#e91e63" : "#000"} />
           </TouchableOpacity>
           <TouchableOpacity>
             <MaterialCommunityIcons name="comment-outline" size={28} color="#000" />
@@ -39,20 +59,20 @@ const PostCard = ({ post }) => {
           </TouchableOpacity>
         </View>
         <TouchableOpacity>
-          <MaterialCommunityIcons name={post.saved ? "bookmark" : "bookmark-outline"} size={28} color="#000" />
+          <MaterialCommunityIcons name={data.saved ? "bookmark" : "bookmark-outline"} size={28} color="#000" />
         </TouchableOpacity>
       </View>
 
       {/* Likes, caption, tags */}
-      <Text style={styles.likes}>{post.likesCount} likes</Text>
+      <Text style={styles.likes}>{data.likes_count} likes</Text>
       <View style={styles.captionContainer}>
-        <Text style={styles.username}>{post.username}</Text>
-        <Text style={styles.caption}> {post.caption}</Text>
+        <Text style={styles.username}>{data.username}</Text>
+        <Text style={styles.caption}> {data.caption}</Text>
       </View>
-      <Text style={styles.tags}>{post.tags.join(' ')}</Text>
+      <Text style={styles.tags}>{data.tags}</Text>
 
       {/* Time and shares */}
-      <Text style={styles.postTime}>{new Date(post.postedAt).toLocaleDateString()}</Text>
+      <Text style={styles.postTime}>{new Date(data.posted_at).toLocaleDateString()}</Text>
     </View>
   )
 }
@@ -62,7 +82,7 @@ export default PostCard
 const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: '#fff',
-    marginBottom: 20,
+    marginBottom: 0,
     borderRadius: 8,
   },
   header: {
@@ -127,5 +147,6 @@ const styles = StyleSheet.create({
     color: '#888',
     fontSize: 12,
     paddingVertical: 5,
+    marginBottom:10,
   },
 })
