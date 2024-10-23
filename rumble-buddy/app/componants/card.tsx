@@ -19,7 +19,7 @@ const Card: React.FC<CardProps> = ({ data }) => {
       <View style={styles.cardHero}>
         <View style={styles.cardHeroHeader}>
           <Text style={styles.cardJobTitle}>{data.title}</Text>
-          <TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.8}>
             <MaterialCommunityIcons name="bookmark-outline" size={24} color="#000" />
           </TouchableOpacity>
         </View>
@@ -39,6 +39,7 @@ const Card: React.FC<CardProps> = ({ data }) => {
           </View>
         </View>
         <TouchableOpacity
+        activeOpacity={0.8}
           style={styles.cardBtn}
           onPress={() => router.push('/screens/details')}
         >

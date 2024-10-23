@@ -15,13 +15,6 @@ const userData = {
     phoneNumber:'',
     email:'',
     website:'',
-    userPosts: [
-        'https://picsum.photos/seed/1/200/200',
-        'https://picsum.photos/seed/2/200/200',
-        'https://picsum.photos/seed/3/200/200',
-        'https://picsum.photos/seed/4/200/200',
-        'https://picsum.photos/seed/5/200/200',
-    ],
 };
 
 export default userData;

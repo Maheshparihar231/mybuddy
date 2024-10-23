@@ -1,14 +1,131 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
+import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons';
 
-const PostCard = () => {
+const PostCard = ({ post }) => {
   return (
-    <View>
-      <Text>postCard</Text>
+    <View style={styles.cardContainer}>
+      {/* Header with profile info */}
+      <View style={styles.header}>
+        <View style={styles.profileSection}>
+          <Image source={{ uri: post.profilePicture }} style={styles.profileImage} />
+          <View>
+            <View style={styles.usernameRow}>
+              <Text style={styles.username}>{post.username}</Text>
+              {post.isVerified && (
+                <MaterialCommunityIcons name="check-decagram" size={16} color="#3897f0" />
+              )}
+            </View> 
+            <Text style={styles.location}>{post.location}</Text>
+          </View>
+        </View>
+        <MaterialCommunityIcons name="dots-horizontal" size={24} color="#000" />
+      </View>
+
+      {/* Post Image */}
+      <Image source={{ uri: post.imageUrl }} style={styles.postImage} />
+
+      {/* Action Buttons */}
+      <View style={styles.actionButtons}>
+        <View style={styles.leftActions}>
+          <TouchableOpacity>
+            <MaterialCommunityIcons name={post.isLiked ? "heart" : "heart-outline"} size={28} color={post.isLiked ? "#e91e63" : "#000"} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <MaterialCommunityIcons name="comment-outline" size={28} color="#000" />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <MaterialCommunityIcons name="share-outline" size={28} color="#000" />
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity>
+          <MaterialCommunityIcons name={post.saved ? "bookmark" : "bookmark-outline"} size={28} color="#000" />
+        </TouchableOpacity>
+      </View>
+
+      {/* Likes, caption, tags */}
+      <Text style={styles.likes}>{post.likesCount} likes</Text>
+      <View style={styles.captionContainer}>
+        <Text style={styles.username}>{post.username}</Text>
+        <Text style={styles.caption}> {post.caption}</Text>
+      </View>
+      <Text style={styles.tags}>{post.tags.join(' ')}</Text>
+
+      {/* Time and shares */}
+      <Text style={styles.postTime}>{new Date(post.postedAt).toLocaleDateString()}</Text>
     </View>
   )
 }
 
 export default PostCard
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  cardContainer: {
+    backgroundColor: '#fff',
+    marginBottom: 20,
+    borderRadius: 8,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+  },
+  profileSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 10,
+  },
+  usernameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  username: {
+    fontWeight: 'bold',
+    marginRight: 5,
+  },
+  location: {
+    color: '#888',
+  },
+  postImage: {
+    width: '100%',
+    height: 400,
+  },
+  actionButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  leftActions: {
+    gap:10,
+    flexDirection: 'row',
+  },
+  likes: {
+    fontWeight: 'bold',
+    paddingHorizontal: 10,
+  },
+  captionContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  caption: {
+    fontWeight: '400',
+  },
+  tags: {
+    paddingHorizontal: 10,
+    color: '#3897f0',
+  },
+  postTime: {
+    paddingHorizontal: 10,
+    color: '#888',
+    fontSize: 12,
+    paddingVertical: 5,
+  },
+})

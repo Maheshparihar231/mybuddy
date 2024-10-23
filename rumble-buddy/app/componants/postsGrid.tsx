@@ -1,27 +1,43 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, FlatList, Animated, Dimensions } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import Activitiesgrid from './activitiesgrid';
+import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import userPosts from '../Data/posts';
 
 interface MediaItem {
     id: string;
     imageUrl: string;
+    isLiked: boolean,
+    likesCount: number,
+    saved: boolean,
+    sharesCount: number,
+    bookmarksCount: number,
 }
-const postsData = [
-    { id: '1', imageUrl: 'https://picsum.photos/id/1/200/200' },
-    { id: '2', imageUrl: 'https://picsum.photos/id/2/200/200' },
-    { id: '3', imageUrl: 'https://picsum.photos/id/3/200/200' },
-    { id: '4', imageUrl: 'https://picsum.photos/id/4/200/200' },
-    { id: '5', imageUrl: 'https://picsum.photos/id/9/200/200' },
-];
+
+const postsData = userPosts;
 
 const PostsGrid = () => {
     const [activeTab, setActiveTab] = useState('Posts'); // State to track the active tab
     const slidingBarPosition = useRef(new Animated.Value(0)).current;
-    const [selectedImage, setSelectedImage] = useState<string | null>(null); // State to track long-pressed image
+    const [selectedPost, setSelectedPost] = useState<MediaItem | null>(null); // State to track long-pressed post
+    const router = useRouter(); // Initialize the router
+
+    // Function to handle image long press
+    const handleLongPress = (item: MediaItem) => {
+        setSelectedPost(item);
+    };
+
     // Function to render each item (post or reel) in the grid
     const renderItem = ({ item }: { item: MediaItem }) => (
         <View style={styles.gridItem}>
-            <TouchableOpacity activeOpacity={0.8} onLongPress={() => setSelectedImage(item.imageUrl)} onPressOut={() => { setSelectedImage(null) }}>
+            <TouchableOpacity
+                activeOpacity={0.8}
+                onLongPress={() => handleLongPress(item)} // Trigger long press action
+                onPress={() => router.push('/screens/postscroll')}    // Trigger press action
+                onPressOut={() => setSelectedPost(null)} // Reset post when press is released
+            >
                 <Image source={{ uri: item.imageUrl }} style={styles.gridImage} />
             </TouchableOpacity>
         </View>
@@ -65,15 +81,45 @@ const PostsGrid = () => {
             ) : (
                 <Activitiesgrid />
             )}
-            {selectedImage && (
+            {selectedPost && (
                 <Modal
                     animationType="fade"
                     transparent={true}
-                    visible={!!selectedImage}
-                    onRequestClose={() => setSelectedImage(null)}
+                    visible={!!selectedPost}
+                    onRequestClose={() => setSelectedPost(null)} // Close modal when tapped outside
                 >
                     <View style={styles.modalBackground}>
-                        <Image source={{ uri: selectedImage }} style={styles.fullImage} />
+                        <Image source={{ uri: selectedPost.imageUrl }} style={styles.fullImage} />
+                        <View style={styles.postDetails}>
+                            {/* Icons with details, like Instagram */}
+                            <View style={styles.detailsRow}>
+                                {/* Likes */}
+                                <TouchableOpacity style={styles.iconButton}>
+                                    <FontAwesome
+                                        name={selectedPost.isLiked ? 'heart' : 'heart-o'}
+                                        size={24}
+                                        color={selectedPost.isLiked ? 'red' : 'gray'}
+                                    />
+                                    <Text style={styles.iconText}>{selectedPost.likesCount}</Text>
+                                </TouchableOpacity>
+
+                                {/* Shares */}
+                                <TouchableOpacity style={styles.iconButton}>
+                                    <Ionicons name="share-social-outline" size={24} color="gray" />
+                                    <Text style={styles.iconText}>{selectedPost.sharesCount}</Text>
+                                </TouchableOpacity>
+
+                                {/* Bookmarks */}
+                                <TouchableOpacity style={styles.iconButton}>
+                                    <MaterialCommunityIcons
+                                        name={selectedPost.saved ? 'bookmark' : 'bookmark-outline'}
+                                        size={24}
+                                        color={selectedPost.saved ? 'blue' : 'gray'}
+                                    />
+                                    <Text style={styles.iconText}>{selectedPost.bookmarksCount}</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
                     </View>
                 </Modal>
             )}
@@ -149,6 +195,32 @@ const styles = StyleSheet.create({
     fullImage: {
         width: '90%',
         height: '70%',
-        resizeMode: 'contain', // Show image in full-size format
+        resizeMode: 'cover', // Show image in full-size format
+    },
+    postDetails: {
+        alignItems: 'center',
+        padding: 10,
+        backgroundColor: 'rgba(255, 255, 255, 0.9)', // Light background for the details
+        borderRadius: 10,
+    },
+    detailsRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%',
+    },
+    detailText: {
+        fontSize: 16,
+        color: '#333',
+        marginVertical: 5,
+    },
+    iconButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginHorizontal: 10,
+    },
+    iconText: {
+        marginLeft: 5,
+        fontSize: 16,
+        color: '#333',
     },
 })

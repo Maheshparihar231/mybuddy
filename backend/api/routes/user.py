@@ -3,26 +3,8 @@ from models import db, User
 
 user_api = Blueprint('user_api', __name__)
 
-# Route to create a new user
-@user_api.route('/register', methods=['POST'])
-def create_user():
-    data = request.get_json()
-
-    if not data or not data.get('username') or not data.get('email'):
-        return jsonify({'error': 'Username and email are required!'}), 400
-
-    try:
-        user = User(username=data['username'], email=data['email'],password=data['password'])
-        db.session.add(user)
-        db.session.commit()
-        return jsonify({'message': 'User created!', 'user': {'user_id': user.user_id, 'username': user.username, 'email': user.email}}), 201
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({'error': f'Error creating user: {str(e)}'}), 500
-
-
 # Method to get user details by user_id
-@user_api.route('/<int:user_id>', methods=['GET'])
+@user_api.route('/<string:user_id>', methods=['GET'])
 def get_user(user_id):
     try:
         user = User.query.get_or_404(user_id)
@@ -38,7 +20,7 @@ def get_user(user_id):
 
 
 # Method to update user data
-@user_api.route('/update/<int:user_id>', methods=['PUT'])
+@user_api.route('/update/<string:user_id>', methods=['PUT'])
 def update_user(user_id):
     data = request.get_json()
     user = User.query.get_or_404(user_id)
@@ -57,7 +39,7 @@ def update_user(user_id):
 
 
 # Method to delete user by user_id
-@user_api.route('/<int:user_id>', methods=['DELETE'])
+@user_api.route('/<string:user_id>', methods=['DELETE'])
 def delete_user(user_id):
     user = User.query.filter_by(user_id=user_id).first()
     

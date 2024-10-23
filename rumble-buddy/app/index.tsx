@@ -2,11 +2,6 @@ import { Redirect } from "expo-router";
 import { useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
-import NearbyActivity from "./componants/quick_filter";
-import Home from "./tabs/home";
-import Notification from "./screens/notification";
-import Profile from "./screens/profile";
 
 export default function Index() {
   const [start, setStart] = useState(false);
@@ -17,13 +12,13 @@ export default function Index() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Profile/>
-      {/* <View style={styles.container}>
+      {/* <Postscroll/> */}
+      <View style={styles.container}>
         <Text>Splash Screen Animation</Text>
         <TouchableOpacity style={styles.button} onPress={() => setStart(true)} >
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
-      </View> */}
+      </View>
     </GestureHandlerRootView>
   );
 }
