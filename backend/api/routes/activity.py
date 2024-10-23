@@ -125,7 +125,6 @@ def update_activity(activity_id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
-    
 
 # Delete an event by its activity ID (event_id)
 @activity_api.route('/<string:event_id>', methods=['DELETE'])
@@ -140,4 +139,5 @@ def delete_event_by_id(event_id):
         return jsonify({'message': 'Event deleted successfully!'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400
-    
+
+
