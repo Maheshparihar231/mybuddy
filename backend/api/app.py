@@ -6,6 +6,7 @@ from routes.user import user_api
 from routes.activity import activity_api
 from routes.auth import auth_api
 from routes.userdetails import userdetails_api
+from routes.notifications import notification_api
 from routes.posts import post_api
 from config import Config
 
@@ -54,7 +55,8 @@ def create_app():
     app.register_blueprint(auth_api, url_prefix='/api/auth')
     app.register_blueprint(post_api, url_prefix='/api/posts')
     app.register_blueprint(userdetails_api, url_prefix='/api/userdetails')
-    
+    app.register_blueprint(notification_api, url_prefix='/api/notification')
+
     return app
 
 if __name__ == '__main__':

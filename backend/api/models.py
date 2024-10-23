@@ -61,9 +61,17 @@ class Notification(db.Model):
     posted_time = db.Column(db.String(120), nullable=False)  # Human-readable time string (e.g., "October 15, 2023, 3:00 PM")
     is_readed = db.Column(db.Boolean, nullable=False, default=False)  # Notification read status
 
+
 class Activity(db.Model):
-    __tablename__ = 'activities'  # Keep table name as 'activities'
-    activity_id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    name = db.Column(db.String(120), nullable=False)
-    description = db.Column(db.Text, nullable=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    __tablename__ = 'activities'
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)  # Unique event identifier
+    title = db.Column(db.String(255), nullable=False)  # Title of the event
+    price = db.Column(db.String(50), nullable=False)  # Event price in string format (e.g., "$15/person")
+    posted_by = db.Column(db.String(120), nullable=False)  # Name of the user who posted the event
+    image_url = db.Column(db.String(255), nullable=False)  # URL to event image
+    user_id = db.Column(db.String(120), nullable=False)  # ID of the user who posted the event
+    profile_pic = db.Column(db.String(255), nullable=True, default='https://picsum.photos/200/200')  # Profile picture URL of the user who posted the event
+    posted_date = db.Column(db.Date, nullable=False, default=datetime.utcnow)  # Date the event was posted
+
+
+
