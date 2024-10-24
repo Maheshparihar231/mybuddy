@@ -10,10 +10,13 @@ const Activitiesgrid = () => {
                 <Card
                     key={activity.id} // Assign a unique key to each Card
                     data={{
+                        id:activity.id,
                         price: activity.price,
                         title: activity.title,
                         postedBy: activity.postedBy,
-                        imageUrl: activity.imageUrl,
+                        image_url: activity.imageUrl,
+                        posted_date: activity.postedDate,
+                        profile_pic:activity.imageUrl
                     }}
                 />
             ))}

@@ -1,6 +1,6 @@
 const activitiesByUser = [
     { 
-        id: 1, 
+        id: '1', 
         title: 'Hiking Adventure', 
         price: '$30/person', 
         postedBy: 'John Doe', 
@@ -13,7 +13,7 @@ const activitiesByUser = [
         postedDate: '2024-10-01' 
     },
     { 
-        id: 2, 
+        id: '2', 
         title: 'Bike Ride Challenge', 
         price: '$20/person', 
         postedBy: 'Jane Smith', 
@@ -26,7 +26,7 @@ const activitiesByUser = [
         postedDate: '2024-10-02'
     },
     { 
-        id: 3, 
+        id: '3', 
         title: 'Evening Party', 
         price: '$50/person', 
         postedBy: 'Mike Johnson', 
@@ -39,7 +39,7 @@ const activitiesByUser = [
         postedDate: '2024-10-03'
     },
     { 
-        id: 4, 
+        id: '4', 
         title: 'Gambling Night', 
         price: '$100/person', 
         postedBy: 'Alice Cooper', 
@@ -52,7 +52,7 @@ const activitiesByUser = [
         postedDate: '2024-10-04'
     },
     { 
-        id: 5, 
+        id: '5', 
         title: 'Beach Volleyball', 
         price: '$15/person', 
         postedBy: 'Bob Brown', 

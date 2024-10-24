@@ -16,7 +16,7 @@ const loginScreen = () => {
     // Handle login logic here
     setLoggedIn(true) 
     try {
-      const response = await fetch('https://40e0-49-43-180-176.ngrok-free.app/api/auth/login', { // Replace with your actual API endpoint
+      const response = await fetch(`${API_URL}/api/auth/login`, { // Replace with your actual API endpoint
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -31,7 +31,7 @@ const Postscroll = () => {
     // Function to fetch data from the API
     const fetchPosts = async () => {
         try {
-            const response = await fetch('https://40e0-49-43-180-176.ngrok-free.app/api/posts/all');
+            const response = await fetch(`${API_URL}/api/posts/all`);
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }

@@ -20,7 +20,7 @@ const Activities = () => {
     // Function to fetch data from the API
     const fetchActivities = async () => {
         try {
-            const response = await fetch('https://40e0-49-43-180-176.ngrok-free.app/api/activity/getall');
+            const response = await fetch(`${API_URL}/api/activity/getall`);
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }
