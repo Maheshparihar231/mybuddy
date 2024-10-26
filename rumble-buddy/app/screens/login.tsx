@@ -1,6 +1,8 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform, Button } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { Redirect, useRouter } from 'expo-router';
+import { saveCredentials } from '../secureStore/secureStoreService';
+import { API_URL } from '@/constants/api';
 
 const loginScreen = () => {
   const router = useRouter(); // Initialize the router
@@ -13,8 +15,7 @@ const loginScreen = () => {
   }
 
   const handleLogin = async () => {
-    // Handle login logic here
-    setLoggedIn(true) 
+    // Handle login logic here 
     try {
       const response = await fetch(`${API_URL}/api/auth/login`, { // Replace with your actual API endpoint
         method: 'POST',
@@ -32,6 +33,12 @@ const loginScreen = () => {
       if (response.ok) {
         // Handle successful login
         console.log('Login successful:', data);
+        // Access user_id and email from the response
+        const { user_id, email } = data.user;
+
+        // Save the credentials securely
+        await saveCredentials(user_id, email);
+
         setLoggedIn(true)
         // You can navigate to the next screen or store user info here
         setPassword(''); // Clear the password field

@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View,KeyboardAvoidingView, Platform, Button  } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { useRouter  } from 'expo-router';
+import { API_URL } from '@/constants/api';
 
 const registerScreen = () => {
   const router = useRouter(); // Initialize the router

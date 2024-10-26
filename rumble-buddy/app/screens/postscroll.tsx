@@ -1,6 +1,9 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ActivityIndicator, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import PostCard from '../componants/postCard'
+import { API_URL } from '@/constants/api';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { getCredentials } from '../secureStore/secureStoreService';
 
 interface PostProps {
     id: string,
@@ -23,24 +26,35 @@ interface PostProps {
 interface PostResponse {
     posts: PostProps[]; // Array of PostProps
 }
+type PostscrollRouteParams = {
+    params: {
+        isUserPosts: string; // Make sure it matches the type you expect (string in this case)
+    };
+};
 const Postscroll = () => {
     const [data, setData] = useState<PostProps[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const route = useRoute<RouteProp<PostscrollRouteParams>>();
+    const { isUserPosts } = route.params || { isUserPosts: 'false' }; // Extract the isUserPosts param from the route
 
-    // Function to fetch data from the API
+    // Function to fetch posts
     const fetchPosts = async () => {
         try {
-            const response = await fetch(`${API_URL}/api/posts/all`);
+            const credentials = await getCredentials();
+            if (!credentials) {
+                throw new Error('User credentials not found');
+            }
+            const apiUrl = isUserPosts === 'true'
+                ? `${API_URL}/api/posts/user/${credentials.userId}` // Fetch posts for the specific user
+                : `${API_URL}/api/posts/all`; // Fetch all posts
+
+            const response = await fetch(apiUrl);
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }
-            const jsonData: PostResponse = await response.json(); // Use PostResponse here
-    
-            // Log fetched data
-            console.log('Fetched data:', jsonData.posts[0]);
-    
-            setData(jsonData.posts); // Access posts property
+            const jsonData: PostResponse = await response.json();
+            setData(jsonData.posts);
         } catch (err) {
             setError((err as Error).message);
         } finally {
@@ -51,7 +65,7 @@ const Postscroll = () => {
     // Fetch data on component mount
     useEffect(() => {
         fetchPosts();
-    }, []);
+    }, [isUserPosts]);
 
     if (loading) {
         return <ActivityIndicator size="large" color="#0000ff" />;
@@ -96,7 +110,7 @@ export default Postscroll
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop:30,
+        marginTop: 30,
         backgroundColor: '#f0f0f0', // Light background for the entire feed
     },
     errorText: {

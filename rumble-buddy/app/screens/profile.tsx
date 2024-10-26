@@ -1,52 +1,89 @@
-import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { ScrollView, StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import PostsGrid from '../componants/postsGrid';
+import { API_URL } from '@/constants/api';
+import { getCredentials } from '../secureStore/secureStoreService';
+
+interface UserData {
+  user_id: string;
+  profile_picture: string;
+  name: string;
+  bio: string;
+  posts: number;
+  followers: number;
+  default_location: string;
+  is_verified: boolean;
+  date_joined: string;
+  following: number;
+}
 
 const Profile = () => {
-  const userData = {
-    userId: '',
-    profilePicture: 'https://picsum.photos/200/200',
-    name: 'John Doe',
-    bio: 'Traveler. Foodie. Photographer.',
-    posts: 150,
-    followers: 500,
-    default_location: 'hydrabad, Telangana',
-    isVerified: true,
-    dateJoined: '2020-06-15',
-    following: 300,
-    userPosts: [
-      'https://picsum.photos/seed/1/200/200',
-      'https://picsum.photos/seed/2/200/200',
-      'https://picsum.photos/seed/3/200/200',
-      'https://picsum.photos/seed/4/200/200',
-      'https://picsum.photos/seed/5/200/200',
-    ],
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null); // Change to UserData or null
+
+  // Function to fetch data from the API
+  const fetchUserData = async () => {
+    try {
+      const credentials = await getCredentials();
+      if (!credentials) {
+        throw new Error('User credentials not found');
+      }
+      const response = await fetch(`${API_URL}/api/userdetails/${credentials.userId}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      const jsonData: UserData = await response.json(); // Cast jsonData to UserData
+      setUserData(jsonData); // Set userData to a single user object
+    } catch (err) {
+      // Cast err to a string
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
   };
-  const formatedDate = new Date(userData.dateJoined).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-  });
+
+  // Fetch data on component mount
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
+
+  if (error) {
+    return <Text style={styles.errorText}>Error: {error}</Text>;
+  }
+
+  // Ensure userData is not null before accessing its properties
+  if (!userData) {
+    return <Text style={styles.errorText}>User data not found</Text>;
+  }
+
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <View>
-          <Image source={{ uri: userData.profilePicture }} style={styles.profileImage} />
-        </View>
-        <View style={styles.userInfo}>
-          <View style={styles.userName}>
-            <Text style={styles.name}>{userData.name}</Text>
-            {userData.isVerified && (
-              <TouchableOpacity>
-                <MaterialCommunityIcons name="check-decagram" size={25} color="#4CAF50" />
-              </TouchableOpacity>
-            )}
+      <View style={{ padding: 10 }}>
+        <View style={styles.header}>
+          <View>
+            <Image source={{ uri: userData.profile_picture }} style={styles.profileImage} />
+          </View>
+          <View style={styles.userInfo}>
+            <View style={styles.userName}>
+              <Text style={styles.name}>{userData.name}</Text>
+              {userData.is_verified && (
+                <TouchableOpacity>
+                  <MaterialCommunityIcons name="check-decagram" size={25} color="#4CAF50" />
+                </TouchableOpacity>
+              )}
+            </View>
           </View>
         </View>
-      </View>
-      <View style={{ marginVertical: 10 }}>
-        <Text style={styles.bio}>{userData.bio}</Text>
-        <Text style={styles.location}>{userData.default_location}</Text>
+        <View style={{ marginVertical: 10 }}>
+          <Text style={styles.bio}>{userData.bio}</Text>
+          <Text style={styles.location}>{userData.default_location}</Text>
+        </View>
       </View>
       <View style={{ flex: 1, flexDirection: 'row' }}>
         <TouchableOpacity activeOpacity={0.8} style={styles.profileBtn}>
@@ -67,7 +104,6 @@ export default Profile
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
     flex: 1,
     backgroundColor: '#fff',
   },
@@ -125,5 +161,10 @@ const styles = StyleSheet.create({
     width: '31%',
     aspectRatio: 1,
     marginBottom: 10,
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 10,
   },
 })

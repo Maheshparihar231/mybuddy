@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Home from "./tabs/home";
 import Profile from "./screens/profile";
+import Explore from "./tabs/explore";
 
 export default function Index() {
   const [start, setStart] = useState(false);
@@ -14,7 +15,7 @@ export default function Index() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      {/* <Profile/> */}
+      {/* <Explore/> */}
       <View style={styles.container}>
         <Text>Splash Screen Animation</Text>
         <TouchableOpacity style={styles.button} onPress={() => setStart(true)} >

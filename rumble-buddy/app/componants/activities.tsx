@@ -1,6 +1,7 @@
 import { ActivityIndicator, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Card from './card'
+import { API_URL } from '@/constants/api';
 
 interface Activity {
     id: string;

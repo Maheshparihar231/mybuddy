@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, FlatList, Animated, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, FlatList, Animated, Dimensions, ActivityIndicator } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import Activitiesgrid from './activitiesgrid';
 import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import userPosts from '../Data/posts';
+import { API_URL } from '@/constants/api';
+import { getCredentials } from '../secureStore/secureStoreService';
 
 interface MediaItem {
     id: string;
@@ -16,13 +17,47 @@ interface MediaItem {
     bookmarksCount: number,
 }
 
-const postsData = userPosts;
-
 const PostsGrid = () => {
     const [activeTab, setActiveTab] = useState('Posts'); // State to track the active tab
     const slidingBarPosition = useRef(new Animated.Value(0)).current;
     const [selectedPost, setSelectedPost] = useState<MediaItem | null>(null); // State to track long-pressed post
     const router = useRouter(); // Initialize the router
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [data, setData] = useState([]);
+    // Function to fetch data from the API
+    const fetchPosts = async () => {
+        try {
+            const credentials = await getCredentials();
+            if (!credentials) {
+                throw new Error('User credentials not found');
+            }
+            const response = await fetch(`${API_URL}/api/posts/user/${credentials.userId}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch data');
+            }
+            const jsonData = await response.json(); // Cast jsonData to Activity[]
+            setData(jsonData);
+        } catch (err) {
+            // Cast err to a string
+            setError((err as Error).message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Fetch data on component mount
+    useEffect(() => {
+        fetchPosts();
+    }, []);
+
+    if (loading) {
+        return <ActivityIndicator size="large" color="#0000ff" />;
+    }
+
+    if (error) {
+        return <Text style={styles.errorText}>Error: {error}</Text>;
+    }
 
     // Function to handle image long press
     const handleLongPress = (item: MediaItem) => {
@@ -72,7 +107,7 @@ const PostsGrid = () => {
             {/* Content based on active tab */}
             {activeTab === 'Posts' ? (
                 <FlatList
-                    data={postsData}
+                    data={data}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id}
                     numColumns={3}
@@ -155,7 +190,6 @@ const styles = StyleSheet.create({
     },
     gridItem: {
         flex: 1,
-        margin: 2,
         aspectRatio: 1, // Square ratio
     },
     gridImage: {
@@ -222,5 +256,10 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         fontSize: 16,
         color: '#333',
+    },
+    errorText: {
+        color: 'red',
+        textAlign: 'center',
+        marginTop: 10,
     },
 })
