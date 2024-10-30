@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import moment from 'moment';
 
 interface NotificationProps {
     notification: {
@@ -13,17 +12,15 @@ interface NotificationProps {
 }
 
 const Notification_card: React.FC<NotificationProps> = ({ notification }) => {
-    const [isReaded, setIsReaded] = useState(notification.isReaded);
     return (
         <View style={styles.card}>
             <View style={styles.container}>
                 {/* Show indicator if not read */}
-                {!isReaded && (
+                {!notification.isReaded && (
                     <View style={styles.left}>
                         <View style={styles.statusInd}></View>
-                    </View>
+                    </View>                    
                 )}
-                
                 <View style={styles.right}>
                     <View style={styles.textWrap}>
                         <Text style={styles.textContent}>
@@ -35,14 +32,6 @@ const Notification_card: React.FC<NotificationProps> = ({ notification }) => {
                     <View style={styles.buttonWrap}>
                         <TouchableOpacity>
                             <Text style={styles.primaryCta}>View more</Text>
-                        </TouchableOpacity>
-                        {/* Conditionally render "Mark as read" or "Mark as unread" based on read state */}
-                        <TouchableOpacity 
-                            onPress={() => setIsReaded(!isReaded)} // Toggle the read state
-                        >
-                            <Text style={styles.secondaryCta}>
-                                {isReaded ? 'Mark as unread' : 'Mark as read'}
-                            </Text>
                         </TouchableOpacity>
                     </View>
                 </View>

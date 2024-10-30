@@ -5,6 +5,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Home from "./tabs/home";
 import Profile from "./screens/profile";
 import Explore from "./tabs/explore";
+import Notification from "./screens/notification";
 
 export default function Index() {
   const [start, setStart] = useState(false);
@@ -15,13 +16,13 @@ export default function Index() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      {/* <Explore/> */}
-      <View style={styles.container}>
+      <Notification/>
+      {/* <View style={styles.container}>
         <Text>Splash Screen Animation</Text>
         <TouchableOpacity style={styles.button} onPress={() => setStart(true)} >
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </GestureHandlerRootView>
   );
 }

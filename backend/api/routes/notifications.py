@@ -65,6 +65,27 @@ def update_notification(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
+    
+    # Mark all notifications as read for a particular user
+@notification_api.route('/user/<string:user_id>/mark_all_as_read', methods=['PUT'])
+def mark_all_notifications_as_read(user_id):
+    try:
+        # Fetch all notifications for the given user_id where is_readed is False
+        notifications = Notification.query.filter_by(user_id=user_id, is_readed=False).all()
+        
+        # if not notifications:
+        #     return jsonify({'message': 'No unread notifications found for this user!'}), 404
+
+        # Set is_readed to True for each notification
+        for notification in notifications:
+            notification.is_readed = True
+
+        db.session.commit()
+        return jsonify({'message': 'All notifications marked as read successfully!'}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
 
 # Delete a notification by notification id
 @notification_api.route('/<string:id>', methods=['DELETE'])
