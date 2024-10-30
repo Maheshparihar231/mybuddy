@@ -1,22 +1,60 @@
-import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useRouter } from 'expo-router';
+import { API_URL } from '@/constants/api';
+import { getCredentials } from '../secureStore/secureStoreService';
 
 interface CardProps {
   data: {
     id: string;
     price: string;
     title: string;
-    postedBy: string;
     posted_date: string;
     image_url: string;
-    profile_pic:string;
+    user_id: string;
   };
 }
 
 const Card: React.FC<CardProps> = ({ data }) => {
-  const router = useRouter();
+  const router = useRouter(); // Initialize the router
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [userData, setUserData] = useState<{ name: string; profile_picture: string } | null>(null);
+
+  const fetchActivity = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/userdetails/${data.user_id}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      
+      const jsonData = await response.json();
+      setUserData({
+        name: jsonData.name,
+        profile_picture: jsonData.profile_picture,
+      });
+    } catch (err) {
+      // Cast err to a string
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch data on component mount
+  useEffect(() => {
+    fetchActivity();
+  }, []);
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
+
+  if (error) {
+    return <Text style={styles.errorText}>Error: {error}</Text>;
+  }
+
   return (
     <View style={styles.card}>
       <View style={styles.cardHero}>
@@ -31,20 +69,20 @@ const Card: React.FC<CardProps> = ({ data }) => {
       <View style={styles.cardFooter}>
         <View style={styles.cardJobSummary}>
           <Image
-            source={{ uri: data.profile_pic }}
+            source={{ uri: userData?.profile_picture}}
             style={styles.cardJobIcon}
           />
           <View style={styles.cardJobDetails}>
-            <Text style={styles.postedby}>Posted By</Text>
+            <Text style={styles.postedby}>Posted By {userData?.name}</Text>
             <Text style={styles.cardJobTitleSmall}>
-              {data.postedBy}
+              {data.posted_date}
             </Text>
           </View>
         </View>
         <TouchableOpacity
-        activeOpacity={0.8}
+          activeOpacity={0.8}
           style={styles.cardBtn}
-          onPress={() => router.push('/screens/details')}
+          onPress={() => router.push({ pathname: '/screens/details', params: { id: data.id } })}
         >
           <Text style={styles.cardBtnText}>View Details</Text>
         </TouchableOpacity>
@@ -104,9 +142,9 @@ const styles = StyleSheet.create({
   cardJobDetails: {
     flex: 1,
   },
-  postedby: { 
-    fontSize:10,
-    color: '#fff' 
+  postedby: {
+    fontSize: 10,
+    color: '#fff'
   },
   cardJobTitleSmall: {
     color: '#fff',
@@ -123,5 +161,10 @@ const styles = StyleSheet.create({
   cardBtnText: {
     color: '#000',
     fontSize: 16,
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 10,
   },
 });

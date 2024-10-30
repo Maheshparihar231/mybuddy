@@ -7,10 +7,9 @@ interface Activity {
     id: string;
     price: string;
     title: string;
-    posted_by: string;
     posted_date: string;
     image_url: string;
-    profile_pic: string;
+    user_id: string;
 }
 
 const Activities = () => {
@@ -21,7 +20,7 @@ const Activities = () => {
     // Function to fetch data from the API
     const fetchActivities = async () => {
         try {
-            const response = await fetch(`${API_URL}/api/activity/getall`);
+            const response = await fetch(`${API_URL}/api/activity/all`);
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }
@@ -60,13 +59,12 @@ const Activities = () => {
                 <Card
                     key={activity.id} // Assign a unique key to each Card
                     data={{
-                        id: activity.id,
+                        id:activity.id,
                         price: activity.price,
                         title: activity.title,
-                        postedBy: activity.posted_by, // Adjusted to match the API response
-                        posted_date: activity.posted_date, // Adjusted to match the API response
-                        image_url: activity.image_url, // Adjusted to match the API response
-                        profile_pic: activity.profile_pic, // Adjusted to match the API response
+                        image_url: activity.image_url,
+                        posted_date: activity.posted_date,
+                        user_id: activity.user_id,
                     }}
                 />
             ))}

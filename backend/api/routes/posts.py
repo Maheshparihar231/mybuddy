@@ -127,9 +127,8 @@ def get_posts_by_user(user_id):
     posts = Post.query.filter_by(user_id=user_id).all()
     if not posts:
         return jsonify({'error': 'No posts found for this user!'}), 404
-    results = []
-    for post in posts:
-        results.append({
+    post_list = [
+        {
             'post_id': str(post.post_id),
             'user_id': post.user_id,
             'username': post.username,
@@ -143,8 +142,9 @@ def get_posts_by_user(user_id):
             'tags': post.tags,
             'shares_count': post.shares_count,
             'bookmarks_count': post.bookmarks_count
-        })
-    return jsonify({'posts': results}), 200
+        } for post in posts
+    ]
+    return jsonify(post_list), 200
 
 # Delete all posts by user_id
 @post_api.route('/user/<string:user_id>', methods=['DELETE'])

@@ -35,44 +35,51 @@ def create_activity():
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-# Get all events
-@activity_api.route('/getall', methods=['GET'])
-def get_all_events():
-    events = Activity.query.all()
-    if not events:
-        return jsonify({'message': 'No events found!'}), 404
+# Get all activities, ordered by posted date (latest first)
+@activity_api.route('/all', methods=['GET'])
+def get_all_activities():
+    activities = Activity.query.order_by(Activity.posted_date.desc()).all()
+    if not activities:
+        return jsonify({'message': 'No activities found!'}), 404
 
-    event_list = [
+    activity_list = [
         {
-            'id': str(event.id),
-            'title': event.title,
-            'price': event.price,
-            'posted_by': event.posted_by,
-            'image_url': event.image_url,
-            'user_id': event.user_id,
-            'profile_pic': event.profile_pic,
-            'posted_date': event.posted_date.strftime('%Y-%m-%d')
-        } for event in events
+            'id': str(activity.id),
+            'title': activity.title,
+            'price': activity.price,
+            'image_url': activity.image_url,
+            'user_id': activity.user_id,
+            'posted_date': activity.posted_date.strftime('%Y-%m-%d'),
+            'location': activity.location,
+            'description': activity.description,
+            'reviews': activity.reviews,
+            'time_zone': activity.time_zone,
+            'share_link': activity.share_link
+        } for activity in activities
     ]
-    return jsonify(event_list), 200
+    return jsonify(activity_list), 200
+
 
 # Get an event by its activity ID (event_id)
 @activity_api.route('/<string:event_id>', methods=['GET'])
 def get_event_by_id(event_id):
     try:
-        event = Activity.query.get(uuid.UUID(event_id))
-        if not event:
+        activity = Activity.query.get(uuid.UUID(event_id))
+        if not activity:
             return jsonify({'message': 'Event not found!'}), 404
         
         event_details = {
-            'id': str(event.id),
-            'title': event.title,
-            'price': event.price,
-            'posted_by': event.posted_by,
-            'image_url': event.image_url,
-            'user_id': event.user_id,
-            'profile_pic': event.profile_pic,
-            'posted_date': event.posted_date.strftime('%Y-%m-%d')
+            'id': str(activity.id),
+            'title': activity.title,
+            'price': activity.price,
+            'image_url': activity.image_url,
+            'user_id': activity.user_id,
+            'posted_date': activity.posted_date.strftime('%Y-%m-%d'),
+            'location': activity.location,
+            'description': activity.description,
+            'reviews': activity.reviews,
+            'time_zone': activity.time_zone,
+            'share_link': activity.share_link
         }
         return jsonify(event_details), 200
     except Exception as e:
@@ -81,21 +88,24 @@ def get_event_by_id(event_id):
 # Get all events by user_id
 @activity_api.route('/user/<string:user_id>', methods=['GET'])
 def get_events_by_user_id(user_id):
-    events = Activity.query.filter_by(user_id=user_id).all()
-    if not events:
+    activities = Activity.query.filter_by(user_id=user_id).all()
+    if not activities:
         return jsonify({'message': 'No events found for this user!'}), 404
 
     event_list = [
         {
-            'id': str(event.id),
-            'title': event.title,
-            'price': event.price,
-            'posted_by': event.posted_by,
-            'image_url': event.image_url,
-            'user_id': event.user_id,
-            'profile_pic': event.profile_pic,
-            'posted_date': event.posted_date.strftime('%Y-%m-%d')
-        } for event in events
+            'id': str(activity.id),
+            'title': activity.title,
+            'price': activity.price,
+            'image_url': activity.image_url,
+            'user_id': activity.user_id,
+            'posted_date': activity.posted_date.strftime('%Y-%m-%d'),
+            'location': activity.location,
+            'description': activity.description,
+            'reviews': activity.reviews,
+            'time_zone': activity.time_zone,
+            'share_link': activity.share_link
+        } for activity in activities
     ]
     return jsonify(event_list), 200
 
@@ -114,11 +124,14 @@ def update_activity(activity_id):
         # Update fields based on the provided data
         activity.title = data.get('title', activity.title)
         activity.price = data.get('price', activity.price)
-        activity.posted_by = data.get('posted_by', activity.posted_by)
         activity.image_url = data.get('image_url', activity.image_url)
         activity.user_id = data.get('user_id', activity.user_id)
-        activity.profile_pic = data.get('profile_pic', activity.profile_pic)
         activity.posted_date = data.get('posted_date', activity.posted_date)
+        activity.location = data.get('location', activity.location)
+        activity.description = data.get('description', activity.description)
+        activity.reviews = data.get('reviews', activity.reviews)
+        activity.time_zone = data.get('time_zone', activity.time_zone)
+        activity.share_link = data.get('share_link', activity.share_link)
 
         db.session.commit()
         return jsonify({'message': 'Activity updated successfully!'}), 200

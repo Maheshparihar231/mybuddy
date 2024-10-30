@@ -66,12 +66,14 @@ class Activity(db.Model):
     __tablename__ = 'activities'
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)  # Unique event identifier
     title = db.Column(db.String(255), nullable=False)  # Title of the event
-    price = db.Column(db.String(50), nullable=False)  # Event price in string format (e.g., "$15/person")
-    posted_by = db.Column(db.String(120), nullable=False)  # Name of the user who posted the event
-    image_url = db.Column(db.String(255), nullable=False)  # URL to event image
+    price = db.Column(db.String(50), nullable=False)  # Price in string format, e.g., "$15/person"
+    image_url = db.Column(db.String(255), nullable=False, default='https://picsum.photos/1920/1080')  # URL for event image
     user_id = db.Column(db.String(120), nullable=False)  # ID of the user who posted the event
-    profile_pic = db.Column(db.String(255), nullable=True, default='https://picsum.photos/200/200')  # Profile picture URL of the user who posted the event
-    posted_date = db.Column(db.Date, nullable=False, default=datetime.utcnow)  # Date the event was posted
+    posted_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)  # Date and time the event was posted
+    location = db.Column(db.String(255), nullable=False)  # Event location
+    description = db.Column(db.String(255), nullable=False)  # Description of the event
+    reviews = db.Column(db.Integer, nullable=False, default=0)  # Number of reviews
+    time_zone = db.Column(db.String(64), nullable=False)  # Time zone of the event
+    share_link = db.Column(db.String(255), nullable=False)  # Shareable link for the event
 
-
-
+    

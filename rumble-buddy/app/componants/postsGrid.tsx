@@ -24,7 +24,8 @@ const PostsGrid = () => {
     const router = useRouter(); // Initialize the router
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<MediaItem[]>([]); // Specify type for state
+
     // Function to fetch data from the API
     const fetchPosts = async () => {
         try {
@@ -36,10 +37,11 @@ const PostsGrid = () => {
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }
-            const jsonData = await response.json(); // Cast jsonData to Activity[]
+            const jsonData: MediaItem[] = await response.json(); // Cast jsonData to MediaItem[]
             setData(jsonData);
+            console.log(jsonData);
+            
         } catch (err) {
-            // Cast err to a string
             setError((err as Error).message);
         } finally {
             setLoading(false);
@@ -51,41 +53,43 @@ const PostsGrid = () => {
         fetchPosts();
     }, []);
 
-    if (loading) {
-        return <ActivityIndicator size="large" color="#0000ff" />;
-    }
-
-    if (error) {
-        return <Text style={styles.errorText}>Error: {error}</Text>;
-    }
-
-    // Function to handle image long press
-    const handleLongPress = (item: MediaItem) => {
-        setSelectedPost(item);
-    };
-
-    // Function to render each item (post or reel) in the grid
-    const renderItem = ({ item }: { item: MediaItem }) => (
-        <View style={styles.gridItem}>
-            <TouchableOpacity
-                activeOpacity={0.8}
-                onLongPress={() => handleLongPress(item)} // Trigger long press action
-                onPress={() => router.push('/screens/postscroll')}    // Trigger press action
-                onPressOut={() => setSelectedPost(null)} // Reset post when press is released
-            >
-                <Image source={{ uri: item.imageUrl }} style={styles.gridImage} />
-            </TouchableOpacity>
-        </View>
-    );
-
+    // Effect for sliding bar animation based on active tab
     useEffect(() => {
-        // Set the sliding bar position based on the active tab
         const targetPosition = activeTab === 'Posts' ? -100 : 100; // Adjust according to your tab widths
         Animated.spring(slidingBarPosition, {
             toValue: targetPosition,
             useNativeDriver: true,
         }).start();
     }, [activeTab]);
+
+    // Render loading state
+    if (loading) {
+        return <ActivityIndicator size="large" color="#0000ff" />;
+    }
+
+    // Render error state
+    if (error) {
+        return <Text style={styles.errorText}>Error: {error}</Text>;
+    }
+
+    // Handle image long press
+    const handleLongPress = (item: MediaItem) => {
+        setSelectedPost(item);
+    };
+
+    // Render each item (post or reel) in the grid
+    const renderItem = ({ item }: { item: MediaItem }) => (
+        <View style={styles.gridItem}>
+            <TouchableOpacity
+                activeOpacity={0.8}
+                onLongPress={() => handleLongPress(item)} // Trigger long press action
+                onPress={() => router.push('/screens/postscroll')} // Trigger press action
+                onPressOut={() => setSelectedPost(null)} // Reset post when press is released
+            >
+                <Image source={{ uri: item.imageUrl }} style={styles.gridImage} />
+            </TouchableOpacity>
+        </View>
+    );
 
     return (
         <View style={styles.container}>
@@ -159,8 +163,9 @@ const PostsGrid = () => {
                 </Modal>
             )}
         </View>
-    )
-}
+    );
+};
+
 
 export default PostsGrid
 

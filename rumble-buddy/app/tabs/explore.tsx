@@ -22,7 +22,7 @@ const Explore = () => {
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState([]);
   // Function to fetch data from the API
-  const fetchActivities = async () => {
+  const fetchExploreData = async () => {
     try {
       const response = await fetch(`${API_URL}/api/posts/all`);
       if (!response.ok) {
@@ -40,7 +40,7 @@ const Explore = () => {
 
   // Fetch data on component mount
   useEffect(() => {
-    fetchActivities();
+    fetchExploreData();
   }, []);
 
   if (loading) {

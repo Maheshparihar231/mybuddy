@@ -1,69 +1,134 @@
 const activities = [
-    { 
-        id: 1, 
-        title: 'Hiking Adventure', 
-        price: '$30/person', 
-        postedBy: 'John Doe', 
-        imageUrl: 'https://picsum.photos/640/480?random=1',
-        userData: {
-            userId: '1234',
-            name: 'John Doe',
-            profilePic: 'https://picsum.photos/200/200?random=1',
-        },
-        postedDate: '2024-10-01' 
+    {
+        "description": "Enjoy an outdoor movie under the stars",
+        "id": "2a4f9785-b3b6-4fb7-9efc-5d9f4c6d8af2",
+        "image_url": "https://picsum.photos/640/480?random=10",
+        "location": "Park, SF",
+        "posted_date": "2024-10-10",
+        "price": "$8/session",
+        "reviews": 50,
+        "share_link": "https://example.com/share/movienight",
+        "time_zone": "PST",
+        "title": "Outdoor Movie Night",
+        "user_id": "af43cd16-3fa0-490f-a7e7-c84479f21855"
     },
-    { 
-        id: 2, 
-        title: 'Bike Ride Challenge', 
-        price: '$20/person', 
-        postedBy: 'Jane Smith', 
-        imageUrl: 'https://picsum.photos/640/480?random=2',
-        userData: {
-            userId: '1235',
-            name: 'Jane Smith',
-            profilePic: 'https://picsum.photos/200/200?random=2',
-        },
-        postedDate: '2024-10-02'
+    {
+        "description": "Calm your mind and find balance",
+        "id": "6d8e9b0f-50c7-442b-bd59-7c68b6eb6e97",
+        "image_url": "https://picsum.photos/640/480?random=9",
+        "location": "Retreat Center, CO",
+        "posted_date": "2024-10-09",
+        "price": "$50/session",
+        "reviews": 30,
+        "share_link": "https://example.com/share/meditation",
+        "time_zone": "MST",
+        "title": "Meditation Retreat",
+        "user_id": "af43cd16-3fa0-490f-a7e7-c84479f21855"
     },
-    { 
-        id: 3, 
-        title: 'Evening Party', 
-        price: '$50/person', 
-        postedBy: 'Mike Johnson', 
-        imageUrl: 'https://picsum.photos/640/480?random=3',
-        userData: {
-            userId: '1236',
-            name: 'Mike Johnson',
-            profilePic: 'https://picsum.photos/200/200?random=3',
-        },
-        postedDate: '2024-10-03'
+    {
+        "description": "Discuss books and enjoy discussions",
+        "id": "3f9f8e0a-379e-4f7a-81d1-7b37682d2c10",
+        "image_url": "https://picsum.photos/640/480?random=8",
+        "location": "Library, NY",
+        "posted_date": "2024-10-08",
+        "price": "$5/session",
+        "reviews": 15,
+        "share_link": "https://example.com/share/bookclub",
+        "time_zone": "EST",
+        "title": "Book Club",
+        "user_id": "af43cd16-3fa0-490f-a7e7-c84479f21855"
     },
-    { 
-        id: 4, 
-        title: 'Gambling Night', 
-        price: '$100/person', 
-        postedBy: 'Alice Cooper', 
-        imageUrl: 'https://picsum.photos/640/480?random=4',
-        userData: {
-            userId: '1237',
-            name: 'Alice Cooper',
-            profilePic: 'https://picsum.photos/200/200?random=4',
-        },
-        postedDate: '2024-10-04'
+    {
+        "description": "Cycle scenic trails with a group",
+        "id": "0e2d8f14-d1d1-49fc-885f-118c230f8c1f",
+        "image_url": "https://picsum.photos/640/480?random=7",
+        "location": "River Trails, PA",
+        "posted_date": "2024-10-07",
+        "price": "$15/session",
+        "reviews": 7,
+        "share_link": "https://example.com/share/cyclingtour",
+        "time_zone": "EST",
+        "title": "Cycling Tour",
+        "user_id": "af43cd16-3fa0-490f-a7e7-c84479f21855"
     },
-    { 
-        id: 5, 
-        title: 'Beach Volleyball', 
-        price: '$15/person', 
-        postedBy: 'Bob Brown', 
-        imageUrl: 'https://picsum.photos/640/480?random=5',
-        userData: {
-            userId: '1238',
-            name: 'Bob Brown',
-            profilePic: 'https://picsum.photos/200/200?random=5',
-        },
-        postedDate: '2024-10-05'
+    {
+        "description": "Join a fun running community",
+        "id": "4f0d3f77-9211-4db8-8c1e-fd738a2d94ad",
+        "image_url": "https://picsum.photos/640/480?random=6",
+        "location": "City Square, NY",
+        "posted_date": "2024-10-06",
+        "price": "Free",
+        "reviews": 12,
+        "share_link": "https://example.com/share/runningclub",
+        "time_zone": "EST",
+        "title": "Running Club",
+        "user_id": "af43cd16-3fa0-490f-a7e7-c84479f21855"
+    },
+    {
+        "description": "Groove to the beat in a lively session",
+        "id": "7f3d5284-34f9-4c4d-8b9a-67ecf0bca77b",
+        "image_url": "https://picsum.photos/640/480?random=5",
+        "location": "Dance Hub, LA",
+        "posted_date": "2024-10-05",
+        "price": "$25/session",
+        "reviews": 20,
+        "share_link": "https://example.com/share/dance",
+        "time_zone": "PST",
+        "title": "Dance Class",
+        "user_id": "af43cd16-3fa0-490f-a7e7-c84479f21855"
+    },
+    {
+        "description": "Unleash creativity in this fun art class",
+        "id": "9a4d4c57-e73e-41df-b7a6-55f403fe1738",
+        "image_url": "https://picsum.photos/640/480?random=4",
+        "location": "Art Studio, SF",
+        "posted_date": "2024-10-04",
+        "price": "$30/session",
+        "reviews": 5,
+        "share_link": "https://example.com/share/artclass",
+        "time_zone": "PST",
+        "title": "Art Class",
+        "user_id": "af43cd16-3fa0-490f-a7e7-c84479f21855"
+    },
+    {
+        "description": "Capture stunning photos on a guided tour",
+        "id": "1eeb6d9a-b0ed-4cd6-bc61-1f97a3626377",
+        "image_url": "https://picsum.photos/640/480?random=3",
+        "location": "City Park, CA",
+        "posted_date": "2024-10-03",
+        "price": "$15/session",
+        "reviews": 18,
+        "share_link": "https://example.com/share/photowalk",
+        "time_zone": "PST",
+        "title": "Photography Walk",
+        "user_id": "af43cd16-3fa0-490f-a7e7-c84479f21855"
+    },
+    {
+        "description": "Learn cooking techniques from experts",
+        "id": "b2a1fc3f-29de-4d55-bd52-fbfb8e3dcae3",
+        "image_url": "https://picsum.photos/640/480?random=2",
+        "location": "Downtown Kitchen",
+        "posted_date": "2024-10-02",
+        "price": "$20/session",
+        "reviews": 10,
+        "share_link": "https://example.com/share/cooking",
+        "time_zone": "EST",
+        "title": "Cooking Workshop",
+        "user_id": "af43cd16-3fa0-490f-a7e7-c84479f21855"
+    },
+    {
+        "description": "Relaxing outdoor yoga class",
+        "id": "a94e4a6c-4f2e-4d16-bf9f-39d4f8af3b7f",
+        "image_url": "https://picsum.photos/640/480?random=1",
+        "location": "Central Park, NY",
+        "posted_date": "2024-10-01",
+        "price": "$10/session",
+        "reviews": 25,
+        "share_link": "https://example.com/share/yoga",
+        "time_zone": "EST",
+        "title": "Yoga Class",
+        "user_id": "af43cd16-3fa0-490f-a7e7-c84479f21855"
     }
-];
+]
 
 export default activities;
