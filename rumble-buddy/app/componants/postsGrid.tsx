@@ -8,13 +8,22 @@ import { API_URL } from '@/constants/api';
 import { getCredentials } from '../secureStore/secureStoreService';
 
 interface MediaItem {
-    id: string;
-    imageUrl: string;
-    isLiked: boolean,
-    likesCount: number,
-    saved: boolean,
-    sharesCount: number,
-    bookmarksCount: number,
+    id: string,
+    bookmarks_count: number;
+    caption: string;
+    image_url: string;
+    is_verified: boolean;
+    likes_count: number;
+    location: string;
+    post_id: string;
+    posted_at: string; // You might want to consider using Date if you parse this later
+    profile_picture: string;
+    shares_count: number;
+    tags: string[]; // Array of strings
+    user_id: string;
+    username: string;
+    isLiked: boolean;
+    saved: boolean;
 }
 
 const PostsGrid = () => {
@@ -39,8 +48,7 @@ const PostsGrid = () => {
             }
             const jsonData: MediaItem[] = await response.json(); // Cast jsonData to MediaItem[]
             setData(jsonData);
-            console.log(jsonData);
-            
+            // console.log(jsonData[0]);
         } catch (err) {
             setError((err as Error).message);
         } finally {
@@ -83,10 +91,10 @@ const PostsGrid = () => {
             <TouchableOpacity
                 activeOpacity={0.8}
                 onLongPress={() => handleLongPress(item)} // Trigger long press action
-                onPress={() => router.push('/screens/postscroll')} // Trigger press action
+                onPress={() => router.push({ pathname: '/screens/postscroll', params: { isUserPosts: 'true' } })} // Trigger press action
                 onPressOut={() => setSelectedPost(null)} // Reset post when press is released
             >
-                <Image source={{ uri: item.imageUrl }} style={styles.gridImage} />
+                <Image source={{ uri: item.image_url }} style={styles.gridImage} />
             </TouchableOpacity>
         </View>
     );
@@ -113,7 +121,7 @@ const PostsGrid = () => {
                 <FlatList
                     data={data}
                     renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item, index) => item.id ? item.id : `${index}`}
                     numColumns={3}
                     scrollEnabled={false}
                 />
@@ -125,10 +133,10 @@ const PostsGrid = () => {
                     animationType="fade"
                     transparent={true}
                     visible={!!selectedPost}
-                    onRequestClose={() => setSelectedPost(null)} // Close modal when tapped outside
+                    // onRequestClose={() => setSelectedPost(null)} // Close modal when tapped outside
                 >
                     <View style={styles.modalBackground}>
-                        <Image source={{ uri: selectedPost.imageUrl }} style={styles.fullImage} />
+                        <Image source={{ uri: selectedPost.image_url }} style={styles.fullImage} />
                         <View style={styles.postDetails}>
                             {/* Icons with details, like Instagram */}
                             <View style={styles.detailsRow}>
@@ -139,13 +147,13 @@ const PostsGrid = () => {
                                         size={24}
                                         color={selectedPost.isLiked ? 'red' : 'gray'}
                                     />
-                                    <Text style={styles.iconText}>{selectedPost.likesCount}</Text>
+                                    <Text style={styles.iconText}>{selectedPost.likes_count}</Text>
                                 </TouchableOpacity>
 
                                 {/* Shares */}
                                 <TouchableOpacity style={styles.iconButton}>
                                     <Ionicons name="share-social-outline" size={24} color="gray" />
-                                    <Text style={styles.iconText}>{selectedPost.sharesCount}</Text>
+                                    <Text style={styles.iconText}>{selectedPost.shares_count}</Text>
                                 </TouchableOpacity>
 
                                 {/* Bookmarks */}
@@ -155,7 +163,7 @@ const PostsGrid = () => {
                                         size={24}
                                         color={selectedPost.saved ? 'blue' : 'gray'}
                                     />
-                                    <Text style={styles.iconText}>{selectedPost.bookmarksCount}</Text>
+                                    <Text style={styles.iconText}>{selectedPost.bookmarks_count}</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>

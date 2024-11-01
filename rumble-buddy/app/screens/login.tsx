@@ -15,6 +15,7 @@ const loginScreen = () => {
   }
 
   const handleLogin = async () => {
+    setLoggedIn(true)
     // Handle login logic here 
     try {
       const response = await fetch(`${API_URL}/api/auth/login`, { // Replace with your actual API endpoint
@@ -56,6 +57,7 @@ const loginScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor="#999"
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -64,6 +66,7 @@ const loginScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Password"
+        placeholderTextColor="#999"
         value={password}
         onChangeText={setPassword}
         secureTextEntry

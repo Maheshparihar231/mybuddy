@@ -23,9 +23,7 @@ interface PostProps {
     isLiked: boolean;
     saved: boolean;
 }
-interface PostResponse {
-    posts: PostProps[]; // Array of PostProps
-}
+
 type PostscrollRouteParams = {
     params: {
         isUserPosts: string; // Make sure it matches the type you expect (string in this case)
@@ -53,8 +51,8 @@ const Postscroll = () => {
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }
-            const jsonData: PostResponse = await response.json();
-            setData(jsonData.posts);
+            const jsonData = await response.json();
+            setData(jsonData);
         } catch (err) {
             setError((err as Error).message);
         } finally {
@@ -79,9 +77,9 @@ const Postscroll = () => {
         <ScrollView
             showsVerticalScrollIndicator={false}
             style={styles.container}>
-            {data.map(post => (
+            {data.map((post,index) => (
                 <PostCard
-                    key={post.id} // Assign a unique key to each Card
+                    key={post.id ? `${post.id}-${index}` : index.toString()} // Assign a unique key to each Card
                     data={{
                         bookmarks_count: post.bookmarks_count,
                         caption: post.caption,

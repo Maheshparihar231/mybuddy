@@ -2,18 +2,26 @@ import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, Image, View, 
 import React, { useEffect, useState } from 'react'
 import Search from '../componants/search'
 import searchTags from '../Data/quicksearch'
-import userPosts from '../Data/posts'
 import { useRouter } from 'expo-router'
 import { API_URL } from '@/constants/api'
 
 interface MediaItem {
   id: string,
-  imageUrl: string,
-  isLiked: boolean,
-  likesCount: number,
-  saved: boolean,
-  sharesCount: number,
-  bookmarksCount: number,
+  bookmarks_count: number;
+  caption: string;
+  image_url: string;
+  is_verified: boolean;
+  likes_count: number;
+  location: string;
+  post_id: string;
+  posted_at: string; // You might want to consider using Date if you parse this later
+  profile_picture: string;
+  shares_count: number;
+  tags: string[]; // Array of strings
+  user_id: string;
+  username: string;
+  isLiked: boolean;
+  saved: boolean;
 }
 
 const Explore = () => {
@@ -57,7 +65,7 @@ const Explore = () => {
         activeOpacity={0.8}
         onPress={() => router.push({ pathname: '/screens/postscroll', params: { isUserPosts: 'false' } })}    // Trigger press action
       >
-        <Image source={{ uri: item.imageUrl }} style={styles.gridImage} />
+        <Image source={{ uri: item.image_url }} style={styles.gridImage} />
       </TouchableOpacity>
     </View>
   );
@@ -86,7 +94,7 @@ const Explore = () => {
         <FlatList
           data={data}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, index) => (item.id ? `${item.id}-${index}` : index.toString())}
           numColumns={3}
           scrollEnabled={false}
         />
@@ -100,7 +108,7 @@ export default Explore
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 40,
+    marginTop: 10,
   },
   scrollContainer: {
     paddingHorizontal: 10, // Adds padding to the left and right sides

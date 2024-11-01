@@ -2,21 +2,19 @@ import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } fro
 import React, { useState } from 'react'
 
 const Search = () => {
-    const [isFocused, setIsFocused] = useState(false);
+    // const [isFocused, setIsFocused] = useState(false);
     return (
-        <KeyboardAvoidingView
+        <View
             style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-            <View style={[styles.searchBox, isFocused && styles.focused]}>
+            <View style={styles.searchBox}>
                 <TextInput
                     style={styles.input}
                     placeholder="Search..."
-                    onFocus={() => setIsFocused(true)} // Set focus state to true
-                    onBlur={() => setIsFocused(false)} // Set focus state to false
+                    placeholderTextColor="#999" // Set a visible placeholder color
                 />
             </View>
-        </KeyboardAvoidingView>
+        </View>
     )
 }
 
@@ -48,5 +46,6 @@ const styles = StyleSheet.create({
     input: {
         height: '100%',
         width: '100%',
+        paddingHorizontal: 10, // Add padding inside the input
     },
 })

@@ -39,9 +39,10 @@ def create_post():
 @post_api.route('/all', methods=['GET'])
 def get_all_posts():
     posts = Post.query.all()
-    results = []
-    for post in posts:
-        results.append({
+    if not posts:
+        return jsonify({'error': 'No posts found for this user!'}), 404
+    post_list = [
+        {
             'post_id': str(post.post_id),
             'user_id': post.user_id,
             'username': post.username,
@@ -55,8 +56,9 @@ def get_all_posts():
             'tags': post.tags,
             'shares_count': post.shares_count,
             'bookmarks_count': post.bookmarks_count
-        })
-    return jsonify({'posts': results}), 200
+        } for post in posts
+    ]
+    return jsonify(post_list), 200
 
 # Get a single post by post_id
 @post_api.route('/<string:post_id>', methods=['GET'])

@@ -3,7 +3,6 @@ import React from 'react'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import home from './home';
-import setting from './setting';
 import explore from './explore';
 import profile from '../screens/profile';
 
@@ -55,4 +54,6 @@ const TabsIndex: React.FC = () => {
   
   export default TabsIndex;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  
+})
