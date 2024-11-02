@@ -19,11 +19,14 @@ def create_activity():
             id=uuid.uuid4(),  # Generate unique ID for the event
             title=data['title'],
             price=data['price'],
-            posted_by=data['posted_by'],
             image_url=data.get('image_url', 'https://picsum.photos/640/480?random=1'),  # Default image if not provided
             user_id=data['user_id'],
             profile_pic=data.get('profile_pic', 'https://picsum.photos/200/200?random=1'),  # Default profile pic if not provided
-            posted_date=data.get('posted_date')  # Optional posted_date, use current date if not provided
+            posted_date=data.get('posted_date'),  # Optional posted_date, use current date if not provided
+            location=data['location'],
+            description=data['description'],
+            reviews=data['reviews'],
+            time_zone=data['time_zone'],
         )
 
         # Add and commit the new event to the database
@@ -54,7 +57,6 @@ def get_all_activities():
             'description': activity.description,
             'reviews': activity.reviews,
             'time_zone': activity.time_zone,
-            'share_link': activity.share_link
         } for activity in activities
     ]
     return jsonify(activity_list), 200
@@ -79,7 +81,6 @@ def get_event_by_id(event_id):
             'description': activity.description,
             'reviews': activity.reviews,
             'time_zone': activity.time_zone,
-            'share_link': activity.share_link
         }
         return jsonify(event_details), 200
     except Exception as e:
@@ -104,7 +105,6 @@ def get_events_by_user_id(user_id):
             'description': activity.description,
             'reviews': activity.reviews,
             'time_zone': activity.time_zone,
-            'share_link': activity.share_link
         } for activity in activities
     ]
     return jsonify(event_list), 200
@@ -131,7 +131,6 @@ def update_activity(activity_id):
         activity.description = data.get('description', activity.description)
         activity.reviews = data.get('reviews', activity.reviews)
         activity.time_zone = data.get('time_zone', activity.time_zone)
-        activity.share_link = data.get('share_link', activity.share_link)
 
         db.session.commit()
         return jsonify({'message': 'Activity updated successfully!'}), 200

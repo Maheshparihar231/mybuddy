@@ -1,9 +1,11 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import MaterialCommunityIcons from '@expo/vector-icons/build/MaterialCommunityIcons';
+import { getCredentials } from '../secureStore/secureStoreService';
+import { API_URL } from '@/constants/api';
 
-interface PostProps{
-  data:{
+interface PostProps {
+  data: {
     bookmarks_count: number;
     caption: string;
     image_url: string;
@@ -17,12 +19,36 @@ interface PostProps{
     tags: string[]; // Array of strings
     user_id: string;
     username: string;
-    isLiked:boolean;
-    saved:boolean;
+    isLiked: boolean;
+    saved: boolean;
   }
 }
 
 const PostCard: React.FC<PostProps> = ({ data }) => {
+  const [isLiked, setIsLiked] = useState(data.isLiked);
+  const [error, setError] = useState<string | null>(null);
+  function handleLike() {
+    // Function to fetch data from the API
+    // const fetchPosts = async () => {
+    //     try {
+    //         const credentials = await getCredentials();
+    //         if (!credentials) {
+    //             throw new Error('User credentials not found');
+    //         }
+    //         const response = await fetch(`${API_URL}/api/posts/user/${credentials.userId}`);
+    //         if (!response.ok) {
+    //             throw new Error('Failed to fetch data');
+    //         }
+    //         //implement the
+    //         console.log(response);
+    //     } catch (err) {
+    //         setError((err as Error).message);
+    //     } finally {
+    //         //implement the final output after like
+    //     }
+    // };
+  }
+
   return (
     <View style={styles.cardContainer}>
       {/* Header with profile info */}
@@ -35,7 +61,7 @@ const PostCard: React.FC<PostProps> = ({ data }) => {
               {data.is_verified && (
                 <MaterialCommunityIcons name="check-decagram" size={16} color="#3897f0" />
               )}
-            </View> 
+            </View>
             <Text style={styles.location}>{data.location}</Text>
           </View>
         </View>
@@ -48,12 +74,13 @@ const PostCard: React.FC<PostProps> = ({ data }) => {
       {/* Action Buttons */}
       <View style={styles.actionButtons}>
         <View style={styles.leftActions}>
-          <TouchableOpacity>
-            <MaterialCommunityIcons name={data.isLiked ? "heart" : "heart-outline"} size={28} color={data.isLiked ? "#e91e63" : "#000"} />
+          <TouchableOpacity onPress={() => { handleLike() }}>
+            <MaterialCommunityIcons name={isLiked ? "heart" : "heart-outline"} size={28} color={isLiked ? "#e91e63" : "#000"} />
           </TouchableOpacity>
-          <TouchableOpacity>
+          {/* //comment logic here
+           <TouchableOpacity> 
             <MaterialCommunityIcons name="comment-outline" size={28} color="#000" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity>
             <MaterialCommunityIcons name="share-outline" size={28} color="#000" />
           </TouchableOpacity>
@@ -123,7 +150,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   leftActions: {
-    gap:10,
+    gap: 10,
     flexDirection: 'row',
   },
   likes: {
@@ -147,6 +174,6 @@ const styles = StyleSheet.create({
     color: '#888',
     fontSize: 12,
     paddingVertical: 5,
-    marginBottom:10,
+    marginBottom: 10,
   },
 })

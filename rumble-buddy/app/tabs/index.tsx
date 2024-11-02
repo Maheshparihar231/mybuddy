@@ -3,8 +3,9 @@ import React from 'react'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import home from './home';
-import explore from './explore';
-import profile from '../screens/profile';
+import Explore from './explore';
+import Profile from './profile';
+import Post from './post';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,7 +30,7 @@ const TabsIndex: React.FC = () => {
         />
         <Tab.Screen
           name="Explore"
-          component={explore}
+          component={Explore}
           options={{
             tabBarLabel: 'Explore',
             tabBarIcon: ({ color }) => (
@@ -38,9 +39,19 @@ const TabsIndex: React.FC = () => {
             // tabBarBadge: 3,
           }}
         />
+        {/* <Tab.Screen
+          name="Post"
+          component={Post}
+          options={{
+            tabBarLabel: 'Post',
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="upload" color={color} size={24} />
+            ),
+          }}
+        /> */}
         <Tab.Screen
           name="Profile"
-          component={profile}
+          component={Profile}
           options={{
             tabBarLabel: 'Profile',
             tabBarIcon: ({ color }) => (

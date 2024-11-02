@@ -74,6 +74,5 @@ class Activity(db.Model):
     description = db.Column(db.String(255), nullable=False)  # Description of the event
     reviews = db.Column(db.Integer, nullable=False, default=0)  # Number of reviews
     time_zone = db.Column(db.String(64), nullable=False)  # Time zone of the event
-    share_link = db.Column(db.String(255), nullable=False)  # Shareable link for the event
 
     

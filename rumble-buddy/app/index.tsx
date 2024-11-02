@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Home from "./tabs/home";
-import Profile from "./screens/profile";
+import Profile from "./tabs/profile";
 import Explore from "./tabs/explore";
 import Notification from "./screens/notification";
 import Postscroll from "./screens/postscroll";
